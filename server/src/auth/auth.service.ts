@@ -18,16 +18,16 @@ export class AuthService {
     try {
       const user = await this.db.user.create({
         data: {
-          username: dto.username,
+          email: dto.email,
           password_hash: hashedPassword,
         },
       });
-      const access_token = this.signToken(user.username);
+      const access_token = this.signToken(user.email);
       return { access_token };
     } catch (err) {
       if (err instanceof PrismaClientKnownRequestError) {
         if (err.code === 'P2002') {
-          throw new ForbiddenException('Username already taken');
+          throw new ForbiddenException('email already taken');
         } else {
           throw err;
         }
@@ -37,23 +37,23 @@ export class AuthService {
   async login(dto: AuthDto) {
     const user = await this.db.user.findUnique({
       where: {
-        username: dto.username,
+        email: dto.email,
       },
     });
     if (!user) {
-      throw new ForbiddenException('Invalid username');
+      throw new ForbiddenException('Invalid email');
     }
     const valid = await argon2.verify(user.password_hash, dto.password);
     if (!valid) {
       throw new ForbiddenException('Invalid password');
     }
-    const access_token = this.signToken(user.username);
+    const access_token = this.signToken(user.email);
     return { access_token };
   }
 
-  signToken(username: string) {
+  signToken(email: string) {
     return this.jwt.sign(
-      { username },
+      { email },
       { expiresIn: '1d', secret: this.config.get('JWT_SECRET') },
     );
   }

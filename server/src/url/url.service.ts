@@ -21,14 +21,14 @@ export class UrlService {
     return url;
   }
 
-  async createUrl(username, longUrl: LongDto): Promise<ShortDto> {
+  async createUrl(email, longUrl: LongDto): Promise<ShortDto> {
     const short = Math.random().toString(36).substring(2, 10); // 8 chars
     console.log(short);
     const url = await this.dbService.uRL.create({
       data: {
         short: short,
         url: longUrl.longUrl,
-        userUsername: username,
+        userEmail: email,
       },
     });
     if (!url) {
@@ -54,7 +54,7 @@ export class UrlService {
       longUrl: url.url,
       clicks: url.clicks,
       createdAt: url.createdAt,
-      createdBy: url.userUsername,
+      createdBy: url.userEmail,
       timeToLive: 24 - (Date.now() - url.createdAt.getTime()) / 3600000,
     };
     return stats;

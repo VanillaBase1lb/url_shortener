@@ -7,7 +7,12 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NbThemeModule, NbLayoutModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { HttpClientModule } from '@angular/common/http';
-import { NbPasswordAuthStrategy, NbAuthModule } from '@nebular/auth';
+import {
+  NbPasswordAuthStrategy,
+  NbAuthModule,
+  NbAuthJWTToken,
+} from '@nebular/auth';
+import configuration from './app.config';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,9 +28,59 @@ import { NbPasswordAuthStrategy, NbAuthModule } from '@nebular/auth';
       strategies: [
         NbPasswordAuthStrategy.setup({
           name: 'email',
+          token: {
+            class: NbAuthJWTToken,
+            key: 'access_token',
+          },
+          baseEndpoint: configuration.baseUrl + ':' + configuration.port,
+          login: {
+            endpoint: '/auth/login',
+            method: 'post',
+            redirect: {
+              success: '/home',
+              failure: null,
+            },
+          },
+          register: {
+            endpoint: '/auth/signup',
+            method: 'post',
+            redirect: {
+              success: '/home',
+              failure: null,
+            },
+          },
         }),
       ],
-      forms: {},
+      forms: {
+        // login: {
+        //   strategy: 'email',
+        //   rememberMe: false,
+        //   showMessages: {
+        //     success: true,
+        //     error: true,
+        //   },
+        // },
+        // register: {
+        //   strategy: 'email',
+        //   rememberMe: false,
+        //   showMessages: {
+        //     success: true,
+        //     error: true,
+        //   },
+        // },
+        // validation: {
+        //   password: {
+        //     required: true,
+        //   },
+        //   email: {
+        //     required: true,
+        //     email: false,
+        //   },
+        //   fullName: {
+        //     required: false,
+        //   },
+        // },
+      },
     }),
   ],
   providers: [],

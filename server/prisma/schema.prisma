@@ -11,16 +11,16 @@ datasource db {
 }
 
 model User {
-  username      String @id
+  email         String @id
   password_hash String @db.Char(97)
   URL           URL[]
 }
 
 model URL {
-  url          String
-  short        String   @id @db.Char(8)
-  user         User     @relation(references: [username], fields: [userUsername])
-  userUsername String
-  createdAt    DateTime @default(now())
-  clicks       Int      @default(0)
+  url       String
+  short     String   @id @db.Char(8)
+  user      User     @relation(references: [email], fields: [userEmail])
+  userEmail String
+  createdAt DateTime @default(now())
+  clicks    Int      @default(0)
 }
