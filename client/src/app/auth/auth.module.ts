@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { NgxAuthRoutingModule } from './auth-routing.module';
-import { NbAuthJWTInterceptor, NbAuthModule } from '@nebular/auth';
+import { NbAuthModule } from '@nebular/auth';
 import {
   NbAlertModule,
   NbButtonModule,
@@ -15,7 +15,6 @@ import {
 import { NgxLoginComponent } from './login/login.component';
 import { NgxRegisterComponent } from './register/register.component';
 import { InputComponent } from './input/input.component';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -39,12 +38,6 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
     NgxRegisterComponent,
     InputComponent,
   ],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: NbAuthJWTInterceptor,
-      multi: true,
-    },
-  ],
+  providers: [],
 })
 export class NgxAuthModule {}

@@ -8,7 +8,12 @@ import { UrlModule } from './url/url.module';
 
 @Global()
 @Module({
-  imports: [AuthModule, DbModule, ConfigModule.forRoot({ isGlobal: true }), UrlModule],
+  imports: [
+    AuthModule,
+    DbModule,
+    ConfigModule.forRoot({ isGlobal: true }),
+    UrlModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -6,11 +6,13 @@ import { AppComponent } from './app.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NbThemeModule, NbLayoutModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
   NbPasswordAuthStrategy,
   NbAuthModule,
   NbAuthJWTToken,
+  NbAuthJWTInterceptor,
+  NB_AUTH_TOKEN_INTERCEPTOR_FILTER,
 } from '@nebular/auth';
 import configuration from './app.config';
 
@@ -51,39 +53,22 @@ import configuration from './app.config';
           },
         }),
       ],
-      forms: {
-        // login: {
-        //   strategy: 'email',
-        //   rememberMe: false,
-        //   showMessages: {
-        //     success: true,
-        //     error: true,
-        //   },
-        // },
-        // register: {
-        //   strategy: 'email',
-        //   rememberMe: false,
-        //   showMessages: {
-        //     success: true,
-        //     error: true,
-        //   },
-        // },
-        // validation: {
-        //   password: {
-        //     required: true,
-        //   },
-        //   email: {
-        //     required: true,
-        //     email: false,
-        //   },
-        //   fullName: {
-        //     required: false,
-        //   },
-        // },
-      },
+      forms: {},
     }),
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: NbAuthJWTInterceptor,
+      multi: true,
+    },
+    {
+      provide: NB_AUTH_TOKEN_INTERCEPTOR_FILTER,
+      useValue: function () {
+        return false;
+      },
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
