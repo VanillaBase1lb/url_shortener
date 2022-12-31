@@ -28,8 +28,6 @@ import { InputComponent } from './input/input.component';
     NgxAuthRoutingModule,
 
     NbAuthModule,
-    NbInputModule,
-    NbButtonModule,
     NbCardModule,
   ],
   declarations: [

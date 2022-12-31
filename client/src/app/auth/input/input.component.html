@@ -1,6 +1,10 @@
 <h1>hello</h1>
 <input type="text" nbInput placeholder="Long URL" id="longUrl" #longUrl />
-<button nbButton (click)="onSubmit(longUrl.value)">Shorten</button>
-<!-- create a span to get result with a copy to clipboard button -->
-<span>{{ shortUrl }}</span>
-<button nbButton (click)="copyToClipboard()">Copy</button>
+<button nbButton (click)="onSubmit(longUrl.value)" style="margin-left: 2em">
+  Shorten
+</button>
+<br />
+<span style="padding-right: 2em">{{ shortUrl }}</span>
+<button nbButton (click)="copyToClipboard()" id="copy_to_clipboard">
+  Copy
+</button>
