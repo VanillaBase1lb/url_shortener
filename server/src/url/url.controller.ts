@@ -23,16 +23,16 @@ export class UrlController {
     return this.urlService.createUrl(req.user, longUrl);
   }
 
+  @Get('stats')
+  @UseGuards(AuthGuard('jwt'))
+  async getStats(@Req() req: Request) {
+    return this.urlService.getStats(req.user);
+  }
+
   @Get(':short')
   @Redirect()
   async getLongUrl(@Param('short') short: string) {
     const longUrl = await this.urlService.getLongUrl(short);
     return { url: longUrl };
-  }
-
-  @Get('stats/:short')
-  @UseGuards(AuthGuard('jwt'))
-  async getStats(@Param('short') short: string) {
-    return this.urlService.getStats(short);
   }
 }

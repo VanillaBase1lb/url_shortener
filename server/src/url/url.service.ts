@@ -48,15 +48,17 @@ export class UrlService {
     return url.url;
   }
 
-  async getStats(short: string): Promise<any> {
-    const url = await this.getUrl(short);
-    const stats = {
-      longUrl: url.url,
-      clicks: url.clicks,
-      createdAt: url.createdAt,
-      createdBy: url.userEmail,
-      timeToLive: 24 - (Date.now() - url.createdAt.getTime()) / 3600000,
-    };
-    return stats;
+  async getStats(email): Promise<any> {
+    // timeToLive: 24 - (Date.now() - url.createdAt.getTime()) / 3600000,
+    const urls = await this.dbService.uRL.findMany({
+      where: { userEmail: email },
+      select: {
+        short: true,
+        url: true,
+        clicks: true,
+        createdAt: true,
+      },
+    });
+    return urls;
   }
 }

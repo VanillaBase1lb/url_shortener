@@ -1,4 +1,4 @@
-<h1>hello</h1>
+<h1>Shorten URL</h1>
 <input type="text" nbInput placeholder="Long URL" id="longUrl" #longUrl />
 <button nbButton (click)="onSubmit(longUrl.value)" style="margin-left: 2em">
   Shorten
@@ -8,3 +8,7 @@
 <button nbButton (click)="copyToClipboard()" id="copy_to_clipboard">
   Copy
 </button>
+<section class="another-action" aria-label="Register">
+  View URL stats
+  <a class="text-link" routerLink="../stats">here</a>
+</section>
